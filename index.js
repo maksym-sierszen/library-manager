@@ -24,10 +24,6 @@ sequelize.authenticate()
         console.error("-> DATABASE CONNECTION: FAILURE ")
     })
 
-// Sync database with models
-// const models = fs.readdirSync("./models")
-// console.log(models) 
-
 const Book = require('./models/book.js')
 const Author = require('./models/author.js')
 const User = require('./models/user.js')
@@ -40,3 +36,14 @@ sequelize.sync()
     .catch(err => {
         console.log('FAILURE: COULDNT SYNCHRONIZE MODELS WITH THE DATABASE', err)
     })
+
+// CREATE New Book
+app.post('/books', async (req, res) => {
+    try {
+        const book = await Book.create(req.body)
+        res.status(201).json(book)
+
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+})
