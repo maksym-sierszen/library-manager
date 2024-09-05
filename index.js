@@ -4,7 +4,10 @@ const sequelize = require('./config/database.js');
 const app = express();
 
 // Middleware
-app.use(express.json()); // Replaced bodyParser.json() with express.json(), which is built-in
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
+// Middleware for static files
+app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,8 +20,7 @@ app.listen(PORT, () => {  // Listening on all interfaces
 
 // Main Endpoint
 app.get('/', (req, res) => {
-    console.log('Main endpoint called');
-    res.send('Welcome to the main page! The server is running correctly.');
+    res.send(__dirname + '/public/index.html' );
 });
 
 // Database Connection Test
@@ -46,7 +48,7 @@ sequelize.sync()
 
 
 // CREATE New Book
-app.post('/books', async (req, res) => {
+app.post('/Books', async (req, res) => {
     try {
         const book = await Book.create(req.body);
         res.status(201).json(book);
@@ -56,7 +58,7 @@ app.post('/books', async (req, res) => {
 });
 
 // READ ALL Books
-app.get('/books', async (req, res) => {
+app.get('/Books', async (req, res) => {
   try {
     const books = await Book.findAll();
     console.log('Pobrano książki:', books);  // Dodaj logi, aby sprawdzić, czy rekordy są pobierane
@@ -81,4 +83,30 @@ app.get('/books/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-});
+})
+// DELETE ONE book
+app.delete('/books/:id', async (req, res) => {
+    try {
+        const book = await Book.findByPk(req.params.id)
+        if (book) {
+            await book.destroy()
+            res.status(200).json({message: 'Book removed'})
+        } else {
+            res.status(404).json({error: 'Book not found'})
+            }
+        } catch (error) {
+            res.status(500).json({error: error.message})
+        }
+})
+
+// ADD Author
+app.post('/authors', async (req, res) => {
+    try {
+        //const { first_name, last_name, nationality, birth_year } = req.body
+        const author = await Author.create(req.body)
+        res.status(201)
+        console.log("Dodano autora:", author)
+    } catch (error) {
+        res.status(500).json({error: error.message})
+    }
+})
