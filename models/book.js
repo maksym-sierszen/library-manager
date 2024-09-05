@@ -1,6 +1,7 @@
+// book.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-
+const Author = require("./author.js")
 const Book = sequelize.define('Book', {
     id: {
         type: DataTypes.INTEGER,
@@ -12,9 +13,12 @@ const Book = sequelize.define('Book', {
         type: DataTypes.STRING(255),
         allowNull: false,
     },
-    author: {
-        type: DataTypes.STRING(255),
-        allowNull: false
+    author_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Author,
+            key: 'id'
+        } 
     },
     genre: {
         type: DataTypes.STRING(255),
@@ -24,12 +28,19 @@ const Book = sequelize.define('Book', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    availability: {
+    availability_status: {
         type: DataTypes.BOOLEAN,
         allowNull: false
-    }
-}, {
-    timestamps: true, 
+    },
+},
+
+
+{
+    tableName: 'books', 
+    freezeTableName: true, 
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
 });
 
 module.exports = Book;

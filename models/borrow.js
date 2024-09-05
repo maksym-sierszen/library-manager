@@ -25,8 +25,14 @@ const Borrow = sequelize.define('Borrow', {
     return_date: {
         type: DataTypes.DATE,
     }
-    }    
-
+    },    
+    {
+        tableName: 'borrows', 
+        freezeTableName: true, 
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
         )
 
 module.exports = Borrow

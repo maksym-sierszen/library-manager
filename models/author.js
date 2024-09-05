@@ -22,6 +22,15 @@ const Author = sequelize.define( 'Author',
     }
 
 
-})
+}, 
+{
+    tableName: 'authors', 
+    freezeTableName: true, 
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+}
+  
+)
 
 module.exports = Author
