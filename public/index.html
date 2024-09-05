@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NODE LIBRARY</title>
+</head>
+<body>
+    <div class="form-block">
+        <h1>ADD AUTHOR</h1>
+        <form action="/authors" method="POST">
+            <label for="firstname">First Name: </label>
+            <input type="text" name="first_name" id="firstname" required>
+            
+            <label for="lastname">Last Name: </label>
+            <input type="text" name="last_name" id="lastname" required>
+            
+            <label for="nationality">Nationality: </label>
+            <input type="text" name="nationality" id="nationality" required>
+            
+            <label for="birthyear">Birth Year: </label>
+            <input type="number" name="birth_year" id="birthyear" required>
+            
+            <button type="submit">Add Author</button>
+        </form>
+    </div>
+</body>
+</html>
