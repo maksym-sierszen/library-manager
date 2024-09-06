@@ -1,28 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NODE LIBRARY</title>
-</head>
-<body>
-    <div class="form-block">
-        <h1>ADD AUTHOR</h1>
-        <form action="/authors" method="POST">
-            <label for="firstname">First Name: </label>
-            <input type="text" name="first_name" id="firstname" required>
-            
-            <label for="lastname">Last Name: </label>
-            <input type="text" name="last_name" id="lastname" required>
-            
-            <label for="nationality">Nationality: </label>
-            <input type="text" name="nationality" id="nationality" required>
-            
-            <label for="birthyear">Birth Year: </label>
-            <input type="number" name="birth_year" id="birthyear" required>
-            
-            <button type="submit">Add Author</button>
-        </form>
-    </div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>NODE LIBRARY</title>
+	</head>
+	<body>
+		<div class="form-block">
+			<h1>ADD AUTHOR</h1>
+			<form action="/authors" method="POST">
+				<label for="firstname">First Name: </label>
+				<input type="text" name="first_name" id="firstname" required />
+
+				<label for="lastname">Last Name: </label>
+				<input type="text" name="last_name" id="lastname" required />
+
+				<label for="nationality">Nationality: </label>
+				<input type="text" name="nationality" id="nationality" required />
+
+				<label for="birthyear">Birth Year: </label>
+				<input type="number" name="birth_year" id="birthyear" required />
+
+				<button type="submit">Add Author</button>
+			</form>
+		</div>
+
+		<div class="form-block">
+			<h1>ADD BOOK</h1>
+			<form action="/books" method="POST">
+				<label for="title">Title: </label>
+				<input type="text" name="title" id="title" required />
+
+				<label for="author-select">Author:</label>
+				<select id="author-select" name="author_id" required>
+					<!-- Opcje zostaną wypełnione dynamicznie -->
+				</select>
+
+				<label for="genre">Genre: </label>
+				<input type="text" name="genre" id="genre" required />
+
+				<label for="publication_date">Publication Date: </label>
+				<input
+					type="date"
+					name="publication_date"
+					id="publicationdate"
+					required
+				/>
+
+				<label>Availability:</label>
+				<input
+					type="radio"
+					name="availability_status"
+					id="true"
+					value="true"
+					required
+				/>
+				<label for="true">True</label>
+
+				<input
+					type="radio"
+					name="availability_status"
+					id="false"
+					value="false"
+					required
+				/>
+				<label for="false">False</label>
+
+				<button type="submit">Add Book</button>
+			</form>
+		</div>
+	<div class="form-block">
+			<h1>REMOVE BOOK</h1>
+			<form action="/books/delete" method="POST">
+				<label for="book-select">Book:</label>
+				<select id="book-select" name="book_id" required>
+					<!-- options are filled dynamically -->
+				</select>
+                <button type="submit">Remove Book</button>
+			</form>
+		</div>
+		<script>
+			const loadAuthors = async () => {
+				try {
+					const response = await fetch("/authors")
+					const authors = await response.json()
+
+					const select = document.getElementById("author-select")
+					authors.forEach((author) => {
+						const option = document.createElement("option")
+						option.value = author.id
+						option.textContent = `${author.first_name} ${author.last_name}`
+						select.appendChild(option)
+					})
+				} catch (error) {
+					console.error("Error loading authors:", error)
+				}
+			}
+			const loadBooks = async () => {
+				try {
+					const response = await fetch("/books")
+					const books = await response.json()
+
+					const select = document.getElementById("book-select")
+					books.forEach((book) => {
+						const option = document.createElement("option")
+						option.value = book.id
+						option.textContent = `${book.title} ${book.publication_date}`
+						select.appendChild(option)
+					})
+				} catch (error) {
+					console.error("Error loading books:", error)
+				}
+			}
+
+			window.onload = loadAuthors
+			window.onload = loadBooks
+		</script>
+	</body>
 </html>
