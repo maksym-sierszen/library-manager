@@ -11,7 +11,6 @@
 			<form action="/authors" method="POST">
 				<label for="firstname">First Name: </label>
 				<input type="text" name="first_name" id="firstname" required />
-
 				<label for="lastname">Last Name: </label>
 				<input type="text" name="last_name" id="lastname" required />
 
@@ -24,6 +23,16 @@
 				<button type="submit">Add Author</button>
 			</form>
 		</div>
+		<div class="form-block">
+			<h1>REMOVE AUTHOR</h1>
+			<form action="/authors/delete" method="POST">
+				<label for="author-select-remove-author">Author:</label>
+				<select id="author-select-remove-author" name="author_id" required>
+					<!-- options are filled dynamically -->
+				</select>
+				<button type="submit">Remove Author</button>
+			</form>
+		</div>
 
 		<div class="form-block">
 			<h1>ADD BOOK</h1>
@@ -31,8 +40,8 @@
 				<label for="title">Title: </label>
 				<input type="text" name="title" id="title" required />
 
-				<label for="author-select">Author:</label>
-				<select id="author-select" name="author_id" required>
+				<label for="author-select-add-book">Author:</label>
+				<select id="author-select-add-book" name="author_id" required>
 					<!-- Opcje zostaną wypełnione dynamicznie -->
 				</select>
 
@@ -69,34 +78,60 @@
 				<button type="submit">Add Book</button>
 			</form>
 		</div>
-	<div class="form-block">
+		<div class="form-block">
 			<h1>REMOVE BOOK</h1>
 			<form action="/books/delete" method="POST">
 				<label for="book-select">Book:</label>
 				<select id="book-select" name="book_id" required>
 					<!-- options are filled dynamically -->
 				</select>
-                <button type="submit">Remove Book</button>
+				<button type="submit">Remove Book</button>
 			</form>
 		</div>
+		<h2>BOOK DATABASE</h2>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>TITLE</th>
+						<th>AUTHOR</th>
+						<th>GENRE</th>
+						<th>PUBLICATION DATE</th>
+						<th>AVAILABILITY</th>
+					</tr>
+				</thead>
+				<tbody id="books-list"></tbody>
+			</table>
+		</div>
+
 		<script>
-			const loadAuthors = async () => {
+			const loadAuthorsOptions = async () => {
 				try {
 					const response = await fetch("/authors")
 					const authors = await response.json()
 
-					const select = document.getElementById("author-select")
-					authors.forEach((author) => {
-						const option = document.createElement("option")
-						option.value = author.id
-						option.textContent = `${author.first_name} ${author.last_name}`
-						select.appendChild(option)
+					const selects = [
+						document.getElementById("author-select-remove-author"),
+						document.getElementById("author-select-add-book"),
+					]
+
+					selects.forEach((select) => {
+						// Clear existing options
+						select.innerHTML = ""
+						authors.forEach((author) => {
+							const option = document.createElement("option")
+							option.value = author.id
+							option.textContent = `${author.first_name} ${author.last_name}`
+							select.appendChild(option)
+						})
 					})
 				} catch (error) {
 					console.error("Error loading authors:", error)
 				}
 			}
-			const loadBooks = async () => {
+
+			const loadBooksOptions = async () => {
 				try {
 					const response = await fetch("/books")
 					const books = await response.json()
@@ -112,9 +147,66 @@
 					console.error("Error loading books:", error)
 				}
 			}
+			const loadBooksList = async () => {
+				console.log("Button clicked, trying to load books")
 
-			window.onload = loadAuthors
-			window.onload = loadBooks
+				try {
+					const response = await fetch("/books")
+					const books = await response.json()
+					const tableBody = document.querySelector("#books-list")
+					tableBody.innerHTML = "" // Clear the existing table content
+
+					books.forEach((book) => {
+						const row = document.createElement("tr")
+
+						const idCell = document.createElement("td")
+						idCell.textContent = book.id
+						row.appendChild(idCell)
+
+						const titleCell = document.createElement("td")
+						titleCell.textContent = book.title
+						row.appendChild(titleCell)
+
+						const authorCell = document.createElement("td")
+						authorCell.textContent = book.author_id
+						row.appendChild(authorCell)
+
+						const genreCell = document.createElement("td")
+						genreCell.textContent = book.genre
+						row.appendChild(genreCell)
+
+						const publicationDateCell = document.createElement("td")
+						publicationDateCell.textContent = book.publication_date
+						row.appendChild(publicationDateCell)
+
+						const availabilityCell = document.createElement("td")
+						availabilityCell.textContent = book.availability_status
+						row.appendChild(availabilityCell)
+
+						tableBody.appendChild(row)
+					})
+				} catch (error) {
+					console.error("Error loading books:", error)
+				}
+			}
+
+			window.onload = () => {
+				loadBooksList()
+				loadAuthorsOptions()
+				loadBooksOptions()
+			}
 		</script>
 	</body>
+
+	<style>
+		table {
+			border: 1px solid black;
+		}
+		td {
+			padding: 10px;
+		}
+		th {
+			text-align: left;
+		}
+	</style>
 </html>

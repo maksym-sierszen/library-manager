@@ -51,7 +51,7 @@ sequelize
 	})
 
 // CREATE New Book
-app.post("/Books", async (req, res) => {
+app.post("/books", async (req, res) => {
 	try {
 		const { title, author_id, genre, publication_date, availability_status } =
 			req.body
@@ -70,10 +70,11 @@ app.post("/Books", async (req, res) => {
 })
 
 // READ ALL Books
-app.get("/Books", async (req, res) => {
+app.get("/books", async (req, res) => {
 	try {
 		const books = await Book.findAll()
-		console.log("Books:", books)
+		// console.log("Books:", books)
+		console.log("GET /books: Endpoint hit")
 		res.status(200).json(books)
 	} catch (error) {
 		console.error("Couldnt get any books:", error)
@@ -98,11 +99,11 @@ app.get("/books/:id", async (req, res) => {
 // DELETE ONE book
 app.post("/books/delete/", async (req, res) => {
 	try {
-		const {book_id} = req.body
+		const { book_id } = req.body
 		const book = await Book.findByPk(book_id)
 		if (book) {
 			await book.destroy()
-			res.status(200).send("Book removed succesfully")
+			res.status(200).send("- Book removed succesfully")
 		} else {
 			res.status(404).json({ error: "Book not found" })
 		}
@@ -118,6 +119,21 @@ app.post("/authors", async (req, res) => {
 		const author = await Author.create(req.body)
 		res.status(201)
 		console.log("+ Author added", author)
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
+})
+// DELETE Author
+app.post("/authors/delete/", async (req, res) => {
+	try {
+		const { author_id } = req.body
+		const author = await Author.findByPk(author_id)
+		if (author) {
+			await author.destroy()
+			res.status(200).send("- Author removed succesfully")
+		} else {
+			res.status(404).json({ error: "Author not found" })
+		}
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
