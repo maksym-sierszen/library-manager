@@ -40,6 +40,8 @@ const Book = require("./models/book.js")
 const Author = require("./models/author.js")
 const User = require("./models/user.js")
 const Borrow = require("./models/borrow.js")
+Author.associate({ Book })
+Book.associate({ Author })
 
 sequelize
 	.sync()
@@ -72,7 +74,12 @@ app.post("/books", async (req, res) => {
 // READ ALL Books
 app.get("/books", async (req, res) => {
 	try {
-		const books = await Book.findAll()
+		const books = await Book.findAll({
+			include: {
+				model: Author,
+				attributes: ["first_name", "last_name"],
+			},
+		})
 		// console.log("Books:", books)
 		console.log("GET /books: Endpoint hit")
 		res.status(200).json(books)

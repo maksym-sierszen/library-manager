@@ -168,7 +168,7 @@
 						row.appendChild(titleCell)
 
 						const authorCell = document.createElement("td")
-						authorCell.textContent = book.author_id
+						authorCell.textContent = `${book.Author.first_name} ${book.Author.last_name}`
 						row.appendChild(authorCell)
 
 						const genreCell = document.createElement("td")
