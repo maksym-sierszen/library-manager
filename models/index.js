@@ -2,17 +2,20 @@ const { sequelize } = require("../config/database")
 const Book = require("./book")
 const Author = require("./author")
 const User = require("./user")
-const Borrows = require("./borrows")
+const Borrow = require("./borrow")
 
 const models = {
 	Book,
 	Author,
 	User,
-	Borrows,
+	Borrow,
 }
 
-Author.associate({ Book })
-Book.associate({ Author })
+Object.keys(models).forEach((modelName) => {
+	if (models[modelName].associate) {
+		models[modelName].associate(models)
+	}
+})
 
 models.sequelize = sequelize // instance of Sequelize created previously in database.js
 

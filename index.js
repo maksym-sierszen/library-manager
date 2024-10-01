@@ -1,5 +1,6 @@
 const express = require("express")
 const { connectDB } = require("./config/database.js")
+const models = require("./models/index.js")
 
 const app = express()
 const PORT = process.env.PORT || 3000
