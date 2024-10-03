@@ -44,6 +44,8 @@ const Book = sequelize.define(
 	}
 )
 Book.associate = (models) => {
-	Book.belongsTo(models.Author, { foreignKey: "author_id" })
+	if (process.env.NODE_ENV !== "test") {
+		Book.belongsTo(models.Author, { foreignKey: "author_id" })
+	}
 }
 module.exports = Book

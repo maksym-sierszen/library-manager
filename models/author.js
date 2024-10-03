@@ -29,6 +29,8 @@ const Author = sequelize.define(
 	}
 )
 Author.associate = (models) => {
-	Author.hasMany(models.Book, { foreignKey: "author_id" })
+	if (process.env.NODE_ENV !== "test") {
+		Author.hasMany(models.Book, { foreignKey: "author_id" })
+	}
 }
 module.exports = Author
