@@ -20,7 +20,7 @@ app.use("/authors", authorRoutes)
 app.use("/users", userRoutes)
 
 connectDB()
-app
+var server = app
 	.listen(PORT, () => {
 		console.log(`-> SERVER IS RUNNING ON PORT: ${PORT}`)
 	})
@@ -33,4 +33,4 @@ app.get("/", (req, res) => {
 	res.send(__dirname + "/public/index.html")
 })
 
-module.exports = app
+module.exports = { app, server }

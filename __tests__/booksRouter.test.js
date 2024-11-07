@@ -1,7 +1,8 @@
 const request = require("supertest")
-const app = require("../app.js")
+const { app, server } = require("../app.js")
 const Book = require("../models/book.js")
 const models = require("../models/index.js")
+const sequelize = require("../config/database.js")
 
 jest.mock("../models/book.js")
 
@@ -21,4 +22,9 @@ describe("GET /books", () => {
 
 		expect(response.status).toBe(500)
 	})
+})
+
+afterAll(async () => {
+	await server.close()
+	await sequelize.close()
 })
