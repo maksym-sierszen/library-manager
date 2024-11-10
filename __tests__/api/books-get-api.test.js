@@ -23,7 +23,7 @@ describe("GET / Books", () => {
 	})
 
 	it("should return all books from the database", async () => {
-		const response = await request(app).get("/")
+		const response = await request(app).get("/books")
 		expect(response.status).toBe(200)
 		expect(response.body).toBeInstanceOf(Object)
 	})
