@@ -54,6 +54,7 @@ const deleteBook = async (req, res) => {
 			res.status(404).json({ error: "Book not found" })
 		}
 	} catch (error) {
+		console.error("Error in getAllBooks:", error)
 		res.status(500).json({ error: error.message })
 	}
 }
