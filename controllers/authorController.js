@@ -35,4 +35,17 @@ const getAllAuthors = async (req, res) => {
 	}
 }
 
-module.exports = { createAuthor, deleteAuthor, getAllAuthors }
+const getAuthorById = async (req, res) => {
+	try {
+		const author = await Author.findByPk(req.params.id)
+		if (author) {
+			res.status(200).json(author)
+		} else {
+			res.status(404).json({ error: "Author not found" })
+		}
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
+}
+
+module.exports = { createAuthor, deleteAuthor, getAllAuthors, getAuthorById }
