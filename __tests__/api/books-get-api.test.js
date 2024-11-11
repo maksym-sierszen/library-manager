@@ -27,6 +27,11 @@ describe("GET / Books", () => {
 		expect(response.status).toBe(200)
 		expect(response.body).toBeInstanceOf(Object)
 	})
+	it("should return book by id", async () => {
+		const response = await request(app).get("/books/1")
+		expect(response.status).toBe(200)
+		expect(response.body.title).toBe("Test Book")
+	})
 	afterAll(async () => {
 		await sequelize.close()
 	})
