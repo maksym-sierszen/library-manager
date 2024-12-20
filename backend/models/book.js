@@ -1,4 +1,4 @@
-const { sequelize } = require("../config/database")
+const { sequelize } = require("../config/database.js")
 const { DataTypes } = require("sequelize")
 const Author = require("./author.js")
 const Book = sequelize.define(

@@ -1,6 +1,6 @@
 const request = require("supertest")
-const { Author } = require("../../models/index.js")
-const app = require("../../app.js")
+const { Author } = require("../../../models/index.js")
+const app = require("../../src/app.js")
 const { sequelize, connectDB } = require("../../config/database.js")
 
 describe("GET / Authors", () => {
