@@ -1,6 +1,6 @@
 const app = require("./src/app.js")
 const { connectDB } = require("./config/database.js")
-require("../models/index.js") // associations have to be declared before sequelize.sync
+require("./models/index.js") // associations have to be declared before sequelize.sync
 
 const PORT = process.env.PORT || 3000
 
