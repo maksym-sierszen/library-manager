@@ -11,9 +11,9 @@ const bookRoutes = require("../routes/books.js")
 const authorRoutes = require("../routes/author.js")
 const userRoutes = require("../routes/user.js")
 
-app.use("/books", bookRoutes)
-app.use("/authors", authorRoutes)
-app.use("/users", userRoutes)
+app.use("/api/books", bookRoutes)
+app.use("/api/authors", authorRoutes)
+app.use("/api/users", userRoutes)
 
 // // Main Endpoint
 // app.get("/", (req, res) => {

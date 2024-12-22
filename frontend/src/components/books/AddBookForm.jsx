@@ -14,21 +14,19 @@ function AddBookForm() {
 	const [success, setSuccess] = useState("")
 
 	// Get authors from the backend
-	useEffect(() => {
-		const fetchAuthors = async () => {
-			try {
-				const response = await fetch("/authors")
-				if (!response.ok) {
-					throw new Error(`Error while fetching authors; ${response}`)
-				}
-				const data = response.json()
-				setAuthors(data)
-			} catch (err) {
-				console.error(err)
-				setError("Couldnt fetch authors")
-			}
+	const fetchAuthors = async () => {
+		try {
+			const response = await fetch("/api/authors") // endpoint
+			const data = await response.json()
+			setAuthors(data) // set list of authors in state
+		} catch (err) {
+			console.error("Error fetching authors:", err)
+			setError("Failed to load authors")
 		}
+	}
 
+	// Wywołanie fetchAuthors przy pierwszym renderze komponentu
+	useEffect(() => {
 		fetchAuthors()
 	}, [])
 
@@ -49,7 +47,7 @@ function AddBookForm() {
 		}
 
 		try {
-			const response = await fetch("/books", {
+			const response = await fetch("/api/books", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -106,13 +104,15 @@ function AddBookForm() {
 					onChange={(e) => setAuthorID(e.target.value)}
 					required
 				>
-					{/* {authors.map((author) => (
+					<option value="" disabled>
+						Select an author
+					</option>
+					{authors.map((author) => (
 						<option key={author.id} value={author.id}>
-							{author.name}
+							{author.first_name} {author.last_name}
 						</option>
-					))} */} 
-				</select> 
-                    
+					))}
+				</select>
 				<label>Genre:</label>
 				<input type="text" />
 
