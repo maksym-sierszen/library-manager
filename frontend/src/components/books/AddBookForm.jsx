@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react"
-
+const formatDateFromInput = (date) => {
+	if (!date) return "" // Jeśli data jest pusta, zwracamy pusty string
+	const [year, month, day] = date.split("-") // Zakładamy format YYYY-MM-DD
+	return `${year}-${month}-${day}` // Zwracamy w tym samym formacie (możesz dostosować)
+}
 function AddBookForm() {
 	const [title, setTitle] = useState("")
 	const [authorID, setAuthorID] = useState("")

@@ -1,11 +1,13 @@
-import React from "react";
-
+import React from "react"
+import AddAuthorForm from "../components/authors/AddAuthorForm"
+import RemoveAuthorForm from "../components/authors/RemoveAuthorForm"
 function AuthorsPage() {
 	return (
 		<div>
-			<h1>Authors Page</h1>
+			<AddAuthorForm />
+			<RemoveAuthorForm />
 		</div>
-	);
+	)
 }
 
-export default AuthorsPage;
+export default AuthorsPage

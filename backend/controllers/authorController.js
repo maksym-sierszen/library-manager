@@ -4,7 +4,7 @@ const createAuthor = async (req, res) => {
 	try {
 		//const { first_name, last_name, nationality, birth_year } = req.body
 		const author = await Author.create(req.body)
-		res.status(201)
+		res.status(201).json(author)
 		console.log("+ Author added", author)
 	} catch (error) {
 		res.status(500).json({ error: error.message })
@@ -13,8 +13,8 @@ const createAuthor = async (req, res) => {
 
 const deleteAuthor = async (req, res) => {
 	try {
-		const { author_id } = req.body
-		const author = await Author.findByPk(author_id)
+		const { id } = req.params
+		const author = await Author.findByPk(id)
 		if (author) {
 			await author.destroy()
 			res.status(200).send("- Author removed succesfully")
