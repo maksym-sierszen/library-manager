@@ -105,7 +105,7 @@ function AddBookForm() {
 					required
 				>
 					<option value="" disabled>
-						Select an author
+						Select author
 					</option>
 					{authors.map((author) => (
 						<option key={author.id} value={author.id}>

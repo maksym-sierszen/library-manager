@@ -8,11 +8,13 @@ import React from "react"
 // import UserSection from "./components/users/UserSection"
 // import BookTable from "./components/BookTable"
 import AddBookForm from "./components/books/AddBookForm"
+import RemoveBookForm from "./components/books/RemoveBookForm"
 
 function App() {
 	return (
 		<div>
 			<AddBookForm />
+			<RemoveBookForm />
 		</div>
 	)
 }

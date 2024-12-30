@@ -45,17 +45,21 @@ const getBookById = async (req, res) => {
 
 const deleteBook = async (req, res) => {
 	try {
-		const { book_id } = req.body
-		const book = await Book.findByPk(book_id)
-		if (book) {
-			await book.destroy()
-			res.status(200).send("- Book removed successfully")
-		} else {
-			res.status(404).json({ error: "Book not found" })
+		const { id } = req.params // take id form url
+		if (!id) {
+			return res.status(400).json({ error: "Book ID is required" })
 		}
+
+		const book = await Book.findByPk(id)
+		if (!book) {
+			return res.status(404).json({ error: "Book not found" })
+		}
+
+		await book.destroy()
+		res.status(200).json({ message: "Book removed successfully" })
 	} catch (error) {
-		console.error("Error in getAllBooks:", error)
-		res.status(500).json({ error: error.message })
+		console.error("Error in deleteBook:", error)
+		res.status(500).json({ error: "Internal server error" })
 	}
 }
 
