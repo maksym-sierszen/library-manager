@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react"
 
-// used in date input to parse the data in correct format to the database
-const formatDateToInput = (date) => {
-	const [year, month, day] = date.split("-")
-	return `${day}/${month}/${year}`
-}
-
-const formatDateFromInput = (date) => {
-	const [day, month, year] = date.split("/")
-	return `${year}-${month}-${day}`
-}
-
 function AddBookForm() {
 	const [title, setTitle] = useState("")
 	const [authorID, setAuthorID] = useState("")
