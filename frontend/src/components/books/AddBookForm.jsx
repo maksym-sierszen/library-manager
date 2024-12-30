@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react"
 
+// used in date input to parse the data in correct format to the database
+const formatDateToInput = (date) => {
+	const [year, month, day] = date.split("-")
+	return `${day}/${month}/${year}`
+}
+
+const formatDateFromInput = (date) => {
+	const [day, month, year] = date.split("/")
+	return `${year}-${month}-${day}`
+}
+
 function AddBookForm() {
 	const [title, setTitle] = useState("")
 	const [authorID, setAuthorID] = useState("")
@@ -66,7 +77,7 @@ function AddBookForm() {
 
 			// reset the form after success
 			setTitle("")
-			setAuthorId(authors.length > 0 ? authors[0].id : "")
+			setAuthorID(authors.length > 0 ? authors[0].id : "")
 			setGenre("")
 			setPublicationDate("")
 			setAvailability("")
@@ -113,16 +124,38 @@ function AddBookForm() {
 						</option>
 					))}
 				</select>
-				<label>Genre:</label>
-				<input type="text" />
+				<label htmlFor="genre">Genre:</label>
+				<input
+					type="text"
+					id="genre"
+					value={genre}
+					onChange={(e) => setGenre(e.target.value)}
+				/>
 
-				<label>Publication Date:</label>
-				<input type="date" />
+				<label htmlFor="publication-date">Publication Date:</label>
+				<input
+					type="date"
+					id="publication-date"
+					value={publicationDate ? formatDateFromInput(publicationDate) : ""}
+					onChange={(e) => setPublicationDate(e.target.value)}
+				/>
 
-				<label>Availability</label>
-				<input type="radio" />
-				<input type="radio" />
+				<label htmlFor="avalability">Availability</label>
+				<input
+					type="radio"
+					name="availability"
+					value="true"
+					checked={availability === true}
+					onChange={(e) => setAvailability(e.target.value === "true")}
+				/>
 
+				<input
+					type="radio"
+					name="availability"
+					value="false"
+					checked={availability === false}
+					onChange={(e) => setAvailability(e.target.value === "false")}
+				/>
 				<button type="submit">Add</button>
 			</form>
 		</div>
